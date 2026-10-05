@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { ProductForm } from "./product-form";
 
 export default async function NewProductPage() {
-  const session = await auth();
+  const session: any = await auth();
 
   if (!session?.user) {
     redirect("/login");

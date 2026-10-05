@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./*": "./src/*.tsx"
+    "./*": "./src/*.tsx",
+    "./tokens.css": "./src/tokens.css",
+    "./styles.css": "./src/styles.css"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -37,7 +39,9 @@
     "vitest": "latest"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "tailwindcss": "^4.3.3"
   }
 }

@@ -29,3 +29,7 @@ export function findProduct(
     null
   );
 }
+
+export function getProducts(): Product[] {
+  return products;
+}

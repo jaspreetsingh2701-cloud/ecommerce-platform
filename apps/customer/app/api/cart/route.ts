@@ -18,7 +18,8 @@ export async function GET() {
     );
   }
 
-  const cart = getCart(session.user.id);
+  // GET: wait for Redis to return the cart.
+  const cart = await getCart(session.user.id);
 
   return NextResponse.json(cart);
 }
@@ -50,7 +51,8 @@ export async function POST(request: Request) {
   const { productId, quantity } = result.data;
 
   try {
-    const cart = addItem(
+    // POST: wait for Redis-backed cart update.
+    const cart = await addItem(
       session.user.id,
       productId,
       quantity
@@ -97,7 +99,8 @@ export async function PATCH(request: Request) {
   const { productId, quantity } = result.data;
 
   try {
-    const cart = updateItem(
+    // PATCH: wait for Redis-backed quantity update.
+    const cart = await updateItem(
       session.user.id,
       productId,
       quantity
@@ -142,7 +145,8 @@ export async function DELETE(request: Request) {
   }
 
   try {
-    const cart = removeItem(
+    // DELETE: wait for Redis-backed item removal.
+    const cart = await removeItem(
       session.user.id,
       result.data.productId
     );

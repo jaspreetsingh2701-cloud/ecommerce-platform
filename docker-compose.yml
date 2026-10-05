@@ -1,0 +1,73 @@
+services:
+
+  # First Customer application instance
+  customer-1:
+    build:
+      context: .
+      dockerfile: apps/customer/Dockerfile
+    ports:
+      # Host port 3000 → container port 3000
+      - "3000:3000"
+    environment:
+      # Run Next.js in production mode
+      NODE_ENV: production
+
+      # Allow Auth.js to trust the Docker host
+      AUTH_TRUST_HOST: "true"
+
+      # Use Docker's Redis service name instead of localhost
+      REDIS_URL: "redis://redis:6379"
+
+      # Secret used by Auth.js
+      AUTH_SECRET: "${AUTH_SECRET}"
+    depends_on:
+      # Start Redis before Customer
+      redis:
+        # Start Customer only after Redis becomes healthy
+        condition: "service_healthy"
+
+  # Second Customer application instance
+  customer-2:
+    build:
+      context: .
+      dockerfile: apps/customer/Dockerfile
+    ports:
+      # Host port 3002 → container port 3000
+      - "3002:3000"
+    environment:
+      # Run Next.js in production mode
+      NODE_ENV: production
+
+      # Allow Auth.js to trust the Docker host
+      AUTH_TRUST_HOST: "true"
+
+      # Use Docker's Redis service name instead of localhost
+      REDIS_URL: "redis://redis:6379"
+
+      # Both instances must use the same Auth.js secret
+      AUTH_SECRET: "${AUTH_SECRET}"
+    depends_on:
+      # Start Redis before Customer
+      redis:
+        # Start Customer only after Redis becomes healthy
+        condition: "service_healthy"
+
+  # Shared Redis service
+  redis:
+    image: redis:7-alpine
+    ports:
+      # Host port 6379 → container port 6379
+      - "6379:6379"
+
+    healthcheck:
+      # Ask Redis whether it is ready to accept commands
+      test: ["CMD", "redis-cli", "ping"]
+
+      # Check Redis every 5 seconds
+      interval: 5s
+
+      # Give Redis 3 seconds to respond
+      timeout: 3s
+
+      # Retry three times before marking it unhealthy
+      retries: 3

@@ -1,0 +1,30 @@
+# Ignore installed dependencies from the host machine
+node_modules
+
+# Ignore existing Next.js build output
+.next
+**/.next
+
+# Ignore Git metadata
+.git
+.gitignore
+
+# Ignore local environment files containing secrets
+.env
+.env.*
+!.env.example
+
+# Ignore test coverage output
+coverage
+
+# Ignore Storybook build output
+storybook-static
+
+# Ignore editor and OS files
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Ignore Docker-related local files
+docker-compose.override.yml

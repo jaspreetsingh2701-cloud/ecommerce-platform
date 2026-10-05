@@ -1,0 +1,35 @@
+name: Customer CI
+
+# Run the workflow when code is pushed or a pull request is opened.
+on:
+  push:
+  pull_request:
+
+jobs:
+  customer-ci:
+    # Use GitHub's Ubuntu runner for the CI environment.
+    runs-on: ubuntu-latest
+
+    steps:
+      # Download the repository code into the runner.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install Node.js 22 for our project.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Install the exact dependencies from package-lock.json.
+      - name: Install dependencies
+        run: npm ci
+
+      # Run ESLint and fail if warnings exist.
+      - name: Lint Customer
+        run: npm run lint --workspace=customer
+
+      # Build the Customer Next.js application.
+      - name: Build Customer
+        run: npm run build --workspace=customer

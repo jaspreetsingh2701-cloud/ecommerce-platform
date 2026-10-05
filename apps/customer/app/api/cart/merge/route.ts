@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    let cart = {
+    let cart: any = {
       items: [],
       total: 0,
     };

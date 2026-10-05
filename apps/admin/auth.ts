@@ -36,7 +36,7 @@ const nextAuth = NextAuth({
   ],
 
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: any) {
       if (user) {
         token.role = user.role;
       }
@@ -44,7 +44,7 @@ const nextAuth = NextAuth({
       return token;
     },
   
-    async session({ session, token }) {
+    async session({ session, token }: any) {
       session.user.role = token.role;
       return session;
     },

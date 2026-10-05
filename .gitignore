@@ -39,3 +39,9 @@ yarn-error.log*
 
 *storybook.log
 storybook-static
+
+
+# Ignore local environment files containing secrets.
+.env
+.env.*
+!.env.example

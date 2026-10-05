@@ -1,20 +1,21 @@
 import type { Product } from "@repo/types";
 import { CartCount } from "./../cart/cart-count";
 import styles from "./product.module.css";
+import { getProducts } from "../../lib/product-repository";
 
-async function getProducts(): Promise<Product[]> {
-  const response = await fetch("http://localhost:3000/api/products", {
-    cache: "force-cache"
-  });
+// async function getProducts(): Promise<Product[]> {
+//   const response = await fetch("http://localhost:3000/api/products", {
+//     cache: "force-cache"
+//   });
 
-  // throw new Error("Test error");
+//   // throw new Error("Test error");
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch products");
-  }
+//   if (!response.ok) {
+//     throw new Error("Failed to fetch products");
+//   }
 
-  return response.json();
-}
+//   return response.json();
+// }
 
 
 export default async function ProductsPage() {

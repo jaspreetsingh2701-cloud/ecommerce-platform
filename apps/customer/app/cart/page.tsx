@@ -1,33 +1,48 @@
-import { signIn } from "../../auth";
+import { redirect } from "next/navigation";
+import { auth } from "../../auth";
+import { getCart } from "../../lib/cart-service";
 
-export default function LoginPage() {
+// Render the authenticated user's cart.
+export default async function CartPage() {
+  // Read the current user's session on the server.
+  const session = await auth();
+
+  // Send unauthenticated users to the login page.
+  if (!session?.user?.id) {
+    redirect("/login");
+  }
+
+  // Load the user's cart from Redis.
+  const cart = await getCart(session.user.id);
+
   return (
     <main>
-      <h1>Customer Login</h1>
+      {/* Display the page heading. */}
+      <h1>Your Cart</h1>
 
-      <form
-        action={async (formData) => {
-          "use server";
-
-          await signIn("credentials", {
-            email: formData.get("email"),
-            password: formData.get("password"),
-            redirectTo: "/cart",
-          });
-        }}
-      >
+      {/* Show an empty-cart message when there are no items. */}
+      {cart.items.length === 0 ? (
+        <p>Your cart is empty.</p>
+      ) : (
         <div>
-          <label htmlFor="email">Email</label>
-          <input id="email" name="email" type="email" required />
-        </div>
+          {/* Render every item stored in the user's cart. */}
+          {cart.items.map((item) => (
+            <div key={item.product.id}>
+              {/* Display the product name. */}
+              <h2>{item.product.name}</h2>
 
-        <div>
-          <label htmlFor="password">Password</label>
-          <input id="password" name="password" type="password" required />
-        </div>
+              {/* Display the selected quantity. */}
+              <p>Quantity: {item.quantity}</p>
 
-        <button type="submit">Login</button>
-      </form>
+              {/* Display the product price. */}
+              <p>Price: ₹{item.product.price}</p>
+            </div>
+          ))}
+
+          {/* Display the calculated cart total. */}
+          <h2>Total: ₹{cart.total}</h2>
+        </div>
+      )}
     </main>
   );
 }
