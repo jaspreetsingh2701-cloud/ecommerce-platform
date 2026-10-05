@@ -1,0 +1,30 @@
+{
+  "name": "product-remote",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "webpack-cli serve --mode development",
+    "build": "webpack --mode production",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "next": "^15.5.27",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.16.13",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.8",
+    "html-webpack-plugin": "^5.6.8",
+    "swc-loader": "^0.2.7",
+    "typescript": "^5",
+    "webpack": "^5.111.1",
+    "webpack-cli": "^7.2.3",
+    "webpack-dev-server": "^6.0.0"
+  }
+}
