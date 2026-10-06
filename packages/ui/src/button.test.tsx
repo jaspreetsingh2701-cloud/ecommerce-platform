@@ -4,30 +4,23 @@ import { Button } from "./button";
 
 describe("Button", () => {
   it("renders button text", () => {
-    render(<Button appName="Customer">Shop Now</Button>);
+    render(<Button>Shop Now</Button>);
 
     expect(
       screen.getByRole("button", { name: "Shop Now" })
     ).toBeInTheDocument();
   });
 
-  it("shows an alert when clicked", async () => {
+  it("calls onClick when clicked", async () => {
     const user = userEvent.setup();
+    const handleClick = jest.fn();
 
-    const alertMock = jest
-      .spyOn(window, "alert")
-      .mockImplementation(() => {});
-
-    render(<Button appName="Customer">Shop Now</Button>);
+    render(<Button onClick={handleClick}>Shop Now</Button>);
 
     await user.click(
       screen.getByRole("button", { name: "Shop Now" })
     );
 
-    expect(alertMock).toHaveBeenCalledWith(
-      "Hello from your Customer app!"
-    );
-
-    alertMock.mockRestore();
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });

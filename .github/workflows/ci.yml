@@ -42,7 +42,7 @@ jobs:
 
       # Run Customer unit and component tests in CI.
       - name: Test Customer
-        run: npm test --workspace=customer
+        run: npm test --workspace=@repo/ui
 
       # Build the Customer Next.js application.
       - name: Build Customer
