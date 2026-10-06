@@ -5,6 +5,11 @@ on:
   push:
   pull_request:
 
+# Allow GitHub Actions to read the repo and push images to GHCR.
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   customer-ci:
     # Use GitHub's Ubuntu runner for the CI environment.
@@ -52,3 +57,18 @@ jobs:
       # Build the production Docker image to validate the Dockerfile in CI.
       - name: Build Docker image
         run: docker build -f apps/customer/Dockerfile -t ecommerce-customer .
+
+      # Authenticate with GitHub Container Registry.
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Push the Docker image to GHCR.
+      - name: Push Docker image
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/ecommerce-customer
+          docker tag ecommerce-customer:latest $IMAGE_NAME:latest
+          docker push $IMAGE_NAME:latest
