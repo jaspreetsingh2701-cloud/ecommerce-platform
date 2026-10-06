@@ -20,15 +20,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
 
-      # Enable Corepack so it can manage the project's required npm version.
-      - name: Enable Corepack
-        run: corepack enable
-
-      # Install the exact npm version required by the project.
+      # Install npm 11 outside the repository so devEngines cannot block the bootstrap.
       - name: Setup npm
-        run: corepack prepare npm@11.19.0 --activate
+        working-directory: ${{ runner.temp }}
+        run: npm install -g npm@11.19.0
+
+      # Verify that CI is now using the required npm version.
+      - name: Verify versions
+        run: |
+          node --version
+          npm --version
 
       # Install the exact dependencies from package-lock.json.
       - name: Install dependencies
