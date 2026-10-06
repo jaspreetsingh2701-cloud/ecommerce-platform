@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24.21.0
 
       # Install npm 11 outside the repository so devEngines cannot block the bootstrap.
       - name: Setup npm
