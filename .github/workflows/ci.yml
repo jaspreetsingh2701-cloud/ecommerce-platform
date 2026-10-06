@@ -20,6 +20,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24.21.0
+          cache: npm
 
       # Install npm 11 outside the repository so devEngines cannot block the bootstrap.
       - name: Setup npm
@@ -47,3 +48,7 @@ jobs:
       # Build the Customer Next.js application.
       - name: Build Customer
         run: npm run build --workspace=customer
+
+      # Build the production Docker image to validate the Dockerfile in CI.
+      - name: Build Docker image
+        run: docker build -f apps/customer/Dockerfile -t ecommerce-customer .
