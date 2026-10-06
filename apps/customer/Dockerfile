@@ -71,5 +71,6 @@ COPY --from=builder /app/apps/customer/public ./apps/customer/public
 # Document that the container listens on port 3000
 EXPOSE 3000
 
-# Start the standalone Next.js production server
+# Listen on all container interfaces so Kubernetes/Service can reach Next.js.
+ENV HOSTNAME=0.0.0.0
 CMD ["node", "apps/customer/server.js"]
