@@ -40,6 +40,10 @@ jobs:
       - name: Lint Customer
         run: npm run lint --workspace=customer
 
+      # Run Customer unit and component tests in CI.
+      - name: Test Customer
+        run: npm test --workspace=customer
+
       # Build the Customer Next.js application.
       - name: Build Customer
         run: npm run build --workspace=customer
