@@ -24,7 +24,7 @@ jobs:
 
       # Install the exact npm version required by the project.
       - name: Setup npm
-        run: npm install -g npm@11.19.0
+        run: npm install -g npm@11.19.0 --force
 
       # Install the exact dependencies from package-lock.json.
       - name: Install dependencies
